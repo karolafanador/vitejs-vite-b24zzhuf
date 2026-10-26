@@ -1,0 +1,172 @@
+npm install -D vite@7
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111827" />
+
+  <title>Monitor Cardíaco | Arduino</title>
+
+  <link rel="stylesheet" href="/src/style.css" />
+  <script type="module" src="/src/main.js"></script>
+</head>
+
+<body>
+  <main class="container">
+
+    <header class="header">
+      <div class="logo">❤️</div>
+      <h1>Monitor Cardíaco</h1>
+      <p class="subtitle">
+        Sistema de adquisición de frecuencia cardíaca y oxígeno en sangre
+      </p>
+    </header>
+
+    <section class="connection-card">
+      <div class="connection-info">
+        <span id="connectionIndicator" class="connection-indicator"></span>
+
+        <div>
+          <h2>Conexión Bluetooth</h2>
+          <p id="connectionText">Bluetooth desconectado</p>
+        </div>
+      </div>
+
+      <button id="connectButton" class="connect-button" type="button">
+        🔵 Conectar por Bluetooth
+      </button>
+
+      <p class="connection-help">
+        Enciende el Arduino y el módulo BLE antes de conectar.
+      </p>
+    </section>
+
+    <section class="measurements">
+      <article class="measurement-card bpm-card">
+        <div class="card-heading">
+          <span class="measurement-icon">❤️</span>
+          <h2>Ritmo cardíaco</h2>
+        </div>
+
+        <div class="measurement-value">
+          <span id="bpmValue">--</span>
+          <span class="unit">BPM</span>
+        </div>
+
+        <p id="bpmStatus" class="measurement-status">
+          Esperando datos del sensor
+        </p>
+      </article>
+
+      <article class="measurement-card spo2-card">
+        <div class="card-heading">
+          <span class="measurement-icon">🫁</span>
+          <h2>Oxígeno en sangre</h2>
+        </div>
+
+        <div class="measurement-value">
+          <span id="spo2Value">--</span>
+          <span class="unit">%</span>
+        </div>
+
+        <p class="measurement-status">
+          Saturación de oxígeno (SpO₂)
+        </p>
+      </article>
+    </section>
+
+    <section class="statistics">
+      <article class="stat-card">
+        <p>Frecuencia máxima</p>
+        <div><span id="maxBpm">--</span> <small>BPM</small></div>
+      </article>
+
+      <article class="stat-card">
+        <p>Promedio de frecuencia</p>
+        <div><span id="averageBpm">--</span> <small>BPM</small></div>
+      </article>
+
+      <article class="stat-card">
+        <p>Última lectura</p>
+        <div><span id="currentBpm">--</span> <small>BPM</small></div>
+      </article>
+    </section>
+
+    <section class="chart-card">
+      <div class="section-heading">
+        <div>
+          <h2>📈 Gráfica cardíaca</h2>
+          <p>Historial de las últimas mediciones de BPM</p>
+        </div>
+
+        <span class="live-label">
+          <span class="live-dot"></span>
+          EN VIVO
+        </span>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="heartChart" aria-label="Gráfica de frecuencia cardíaca">
+        </canvas>
+      </div>
+
+      <div class="chart-legend">
+        <span class="legend-line"></span>
+        Frecuencia cardíaca (BPM)
+      </div>
+    </section>
+
+    <section class="settings-card">
+      <div class="section-heading">
+        <div>
+          <h2>⚙️ Configuración de alarma</h2>
+          <p>Define el límite superior de frecuencia cardíaca</p>
+        </div>
+      </div>
+
+      <div class="threshold-control">
+        <label for="threshold">
+          Límite superior de BPM
+        </label>
+
+        <div class="threshold-input-wrapper">
+          <input
+            id="threshold"
+            type="number"
+            min="51"
+            max="250"
+            value="160"
+          />
+          <span>BPM</span>
+        </div>
+      </div>
+
+      <p class="settings-note">
+        La alerta de la aplicación se activa cuando el BPM supera el límite
+        configurado. El oxígeno en sangre se muestra por separado y no activa
+        esta alarma.
+      </p>
+    </section>
+
+    <section id="alertBox" class="alert-box" role="status" aria-live="polite">
+      <span class="alert-icon">🟢</span>
+      <div>
+        <h2 id="status">Sistema en espera</h2>
+        <p id="alertMessage">
+          Conecta el dispositivo para comenzar a recibir mediciones.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Monitor Cardíaco · Arduino + MAX30102 + BLE 4.0</p>
+      <p class="footer-note">
+        Proyecto educativo. Las mediciones no sustituyen una evaluación médica.
+      </p>
+    </footer>
+
+  </main>
+</body>
+</html>
+
